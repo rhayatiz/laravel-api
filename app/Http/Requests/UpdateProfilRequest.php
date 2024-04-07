@@ -29,14 +29,24 @@ class UpdateProfilRequest extends FormRequest
             return [
                 'nom' => 'required|max:255',
                 'prenom' => 'required|max:255',
+                'image' => 'required|image|max:2048',
                 'statut' => ['required', new Enum(ProfilStatut::class)]
             ];
-        } elseif ($method == 'PATCH') {
+        } else {
             return [
                 'nom' => 'sometimes|max:255',
                 'prenom' => 'sometimes|max:255',
+                'image' => 'sometimes|image|max:2048',
                 'statut' => ['sometimes', new Enum(ProfilStatut::class)]
             ];
         }
+    }
+
+    public function messages() 
+    {
+        return [
+            'image.required' => 'Le champ image est obligatoire',
+            'image' => 'La taille du fichier ne doit pas dépasser 2MB'
+        ];
     }
 }

@@ -9,5 +9,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('v1')->group(function () {
+    Route::post('/profil/{profil}', [ProfilController::class, 'update']);
     Route::apiResource('/profil', ProfilController::class);
 });

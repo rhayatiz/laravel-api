@@ -26,7 +26,16 @@ class StoreProfilRequest extends FormRequest
         return [
             'nom' => 'required|max:255',
             'prenom' => 'required|max:255',
-            'statut' => [new Enum(ProfilStatut::class)]
+            'image' => 'required|image|max:2048',
+            'statut' => [new Enum(ProfilStatut::class)],
+        ];
+    }
+
+    public function messages() 
+    {
+        return [
+            'image.required' => 'le champ image est obligatoire',
+            'image' => 'La taille du fichier ne doit pas dépasser 2MB'
         ];
     }
 }

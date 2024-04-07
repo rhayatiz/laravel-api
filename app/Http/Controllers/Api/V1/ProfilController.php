@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateProfilRequest;
 use App\Http\Resources\V1\ProfilCollection;
 use App\Http\Resources\V1\ProfilResource;
 use App\Models\Profil;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 
 class ProfilController extends Controller
 {
@@ -20,19 +22,17 @@ class ProfilController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreProfilRequest $request)
     {
-        new ProfilResource(Profil::create($request->all()));
+        $profilData = $request->all();
+        if ($request->hasFile('image')) {
+            $filename = $this->uploadProfilImage($request);
+            // $request->merge(['image' => $filename]); //overwriting avec merge() ne fonctionne pas sur les fichiers?
+            $profilData['image'] = $filename;
+        }
+        new ProfilResource(Profil::create($profilData));
     }
 
     /**
@@ -48,7 +48,15 @@ class ProfilController extends Controller
      */
     public function update(UpdateProfilRequest $request, Profil $profil)
     {
-        $profil->update($request->all());
+
+        $profilData = $request->all();
+        if ($request->hasFile('image')) {
+            $filename = $this->uploadProfilImage($request);
+            // $request->merge(['image' => $filename]); //overwriting avec merge() ne fonctionne pas sur les fichiers?
+            $profilData['image'] = $filename;
+        }
+
+        $profil->update($profilData);
     }
 
     /**
@@ -57,5 +65,17 @@ class ProfilController extends Controller
     public function destroy(Profil $profil)
     {
         $profil->delete();
+    }
+
+
+    /**
+     * stores profil image and returns filename.extension
+     */
+    private function uploadProfilImage(FormRequest $request): string
+    {
+        $file = $request->file('image');
+        $filename = $file->hashName();
+        $file->store('public/images');
+        return $filename;
     }
 }
