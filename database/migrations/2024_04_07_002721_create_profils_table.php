@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nom');
             $table->string('prenom');
-            $table->string('image');
-            $table->enum('statut', ['inactif', 'en_attente', 'actif']);
+            $table->string('image')->nullable();
+            $table->enum('statut', ['inactif', 'en attente', 'actif']);
             $table->timestamps();
         });
     }

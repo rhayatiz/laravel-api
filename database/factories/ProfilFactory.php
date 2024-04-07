@@ -16,8 +16,17 @@ class ProfilFactory extends Factory
      */
     public function definition(): array
     {
+        $statut = $this->faker->randomElement([
+            'en attente',
+            'inactif',
+            'actif',
+        ]);
+
+
         return [
-            //
+            'nom' => $this->faker->lastName(),
+            'prenom' => $this->faker->firstName(),
+            'statut' => $statut,
         ];
     }
 }
