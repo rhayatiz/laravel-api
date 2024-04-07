@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ProfilStatut;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreProfilRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreProfilRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,9 @@ class StoreProfilRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nom' => 'required|max:255',
+            'prenom' => 'required|max:255',
+            'statut' => [new Enum(ProfilStatut::class)]
         ];
     }
 }

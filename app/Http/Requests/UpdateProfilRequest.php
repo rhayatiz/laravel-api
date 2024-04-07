@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ProfilStatut;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateProfilRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateProfilRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +23,20 @@ class UpdateProfilRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        $method = $this->method();
+
+        if ($method == 'PUT') {
+            return [
+                'nom' => 'required|max:255',
+                'prenom' => 'required|max:255',
+                'statut' => ['required', new Enum(ProfilStatut::class)]
+            ];
+        } elseif ($method == 'PATCH') {
+            return [
+                'nom' => 'sometimes|max:255',
+                'prenom' => 'sometimes|max:255',
+                'statut' => ['sometimes', new Enum(ProfilStatut::class)]
+            ];
+        }
     }
 }

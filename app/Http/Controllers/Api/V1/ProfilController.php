@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProfilRequest;
 use App\Http\Requests\UpdateProfilRequest;
+use App\Http\Resources\V1\ProfilCollection;
+use App\Http\Resources\V1\ProfilResource;
 use App\Models\Profil;
 
 class ProfilController extends Controller
@@ -13,7 +16,7 @@ class ProfilController extends Controller
      */
     public function index()
     {
-        //
+        return new ProfilCollection(Profil::where('statut', 'actif')->paginate(20));
     }
 
     /**
@@ -29,7 +32,7 @@ class ProfilController extends Controller
      */
     public function store(StoreProfilRequest $request)
     {
-        //
+        new ProfilResource(Profil::create($request->all()));
     }
 
     /**
@@ -37,15 +40,7 @@ class ProfilController extends Controller
      */
     public function show(Profil $profil)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Profil $profil)
-    {
-        //
+        return new ProfilResource($profil);
     }
 
     /**
@@ -53,7 +48,7 @@ class ProfilController extends Controller
      */
     public function update(UpdateProfilRequest $request, Profil $profil)
     {
-        //
+        $profil->update($request->all());
     }
 
     /**
@@ -61,6 +56,6 @@ class ProfilController extends Controller
      */
     public function destroy(Profil $profil)
     {
-        //
+        $profil->delete();
     }
 }
