@@ -14,12 +14,13 @@ class ProfilResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = $request->user('sanctum');
         return [
             'id' => $this->id,
             'nom' => $this->nom,
             'prenom' => $this->prenom,
             'image' => $this->image,
-            'statut' => $this->statut,
+            'statut' => $this->when($user, $this->statut),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
