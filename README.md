@@ -9,9 +9,10 @@
 ##### Guide
 
 - Installer les dépendances ```composer install```
-- Définir les identifiants administrateur dans votre fichier .env ```APP_ADMINISTRATEUR_EMAIL``` et ```APP_ADMINISTRATEUR_PASSWORD```
 - Créer les liens symboliques pour l'upload des fichiers ```php artisan storage:link```
-- Lancer les migrations ```php artisan migrate:fresh``` rajouter l'option ```--seed``` pour populer la base de données
+- Configurez les identifiants de base de données dans .env, ou utilisez la configuration par défaut avec une base de données sqlite ```touch ./database/database.sqlite```
+- Lancer les migrations et populer la base de données```php artisan migrate:fresh --seed```
+- Définir les identifiants administrateur dans votre fichier .env ```APP_ADMINISTRATEUR_EMAIL``` et ```APP_ADMINISTRATEUR_PASSWORD```
 - Les tests sont versionnées avec l'attribut Group de PHPUnit ```php artisan test --group apiv1  ```
 
 
