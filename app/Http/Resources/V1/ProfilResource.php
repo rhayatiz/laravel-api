@@ -29,10 +29,6 @@ class ProfilResource extends JsonResource
 
     private function getImagePath(): ?string
     {
-        if ($this->image == null) {
-            return $this->image;
-        }
-
-        return url(Storage::url("images/$this->image"));
+        return $this->image != NULL ? url(Storage::url("images/$this->image")) : null;
     }
 }
