@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class ProfilResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class ProfilResource extends JsonResource
             'id' => $this->id,
             'nom' => $this->nom,
             'prenom' => $this->prenom,
-            'image' => $this->image,
+            'image' => url(Storage::url("images/$this->image")),
             'statut' => $this->when($user, $this->statut),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
