@@ -9,4 +9,9 @@ use Laravel\Sanctum\HasApiTokens;
 class Administrateur extends Authenticatable
 {
     use HasFactory, HasApiTokens;
+
+    protected $fillable = [
+        'email',
+        'password'
+    ];
 }

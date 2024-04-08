@@ -23,23 +23,23 @@ class UpdateProfilRequest extends FormRequest
      */
     public function rules(): array
     {
-        $method = $this->method();
+        // $method = $this->method();
 
-        if ($method == 'PUT') {
+        // if ($method == 'PUT') {
+        //     return [
+        //         'nom' => 'required|max:255',
+        //         'prenom' => 'required|max:255',
+        //         'image' => 'required|image|max:2048',
+        //         'statut' => ['required', new Enum(ProfilStatut::class)]
+        //     ];
+        // } elseif ($method == 'PATCH') { 
             return [
-                'nom' => 'required|max:255',
-                'prenom' => 'required|max:255',
-                'image' => 'required|image|max:2048',
-                'statut' => ['required', new Enum(ProfilStatut::class)]
+                'nom' => 'required_without_all:prenom,image,statut|max:255',
+                'prenom' => 'required_without_all:nom,image,statut|max:255',
+                'image' => 'required_without_all:nom,prenom,statut|image|max:2048',
+                'statut' => ['required_without_all:nom,prenom,image', new Enum(ProfilStatut::class)]
             ];
-        } else {
-            return [
-                'nom' => 'sometimes|max:255',
-                'prenom' => 'sometimes|max:255',
-                'image' => 'sometimes|image|max:2048',
-                'statut' => ['sometimes', new Enum(ProfilStatut::class)]
-            ];
-        }
+        // }
     }
 
     public function messages() 
