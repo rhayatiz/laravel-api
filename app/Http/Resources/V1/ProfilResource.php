@@ -20,10 +20,19 @@ class ProfilResource extends JsonResource
             'id' => $this->id,
             'nom' => $this->nom,
             'prenom' => $this->prenom,
-            'image' => url(Storage::url("images/$this->image")),
+            'image' => $this->getImagePath(),
             'statut' => $this->when($user, $this->statut),
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
         ];
+    }
+
+    private function getImagePath(): ?string
+    {
+        if ($this->image == null) {
+            return $this->image;
+        }
+
+        return url(Storage::url("images/$this->image"));
     }
 }
